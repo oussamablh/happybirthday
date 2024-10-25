@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Rayan - Slideshow</title>
+    <style>
+        /* Existing styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        html, body { height: 100%; }
+        body { background-color: #f5f5f5; background: url('123.png') no-repeat center center/cover; color: #8B0000; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        .slideshow-container { position: relative; max-width: 100%; height: 100%; margin: auto; overflow: hidden; }
+        .slide { display: none; height: 100vh; text-align: center; justify-content: center; align-items: center; }
+        .active { display: flex; }
+        .fade { animation: fade 0.8s ease-in-out; }
+        @keyframes fade { from { opacity: 0.5; } to { opacity: 1; } }
+        .prev, .next { cursor: pointer; position: absolute; top: 50%; padding: 16px; color: white; font-weight: bold; font-size: 18px; border-radius: 0 3px 3px 0; user-select: none; background-color: rgba(0,0,0,0.8); }
+        .next { right: 0; border-radius: 3px 0 0 3px; }
+        header { color: #8B0000; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); }
+        header h1 { font-size: 4.0em; margin: 0; }
+        .slide h2 { font-size: 3.0em; color: #8B0000; }
+        .slide p { font-size: 2.0em; color: #333; }
+        footer { background-color: #4B4B4B; color: #f5f5f5; padding: 30px 0; text-align: center; }
+
+        /* Form styling */
+        #contactForm { max-width: 600px; margin: 20px auto; padding: 20px; background-color: #ffffffdd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+        #contactForm label { font-size: 1.2em; color: #8B0000; display: block; margin-top: 10px; }
+        #contactForm input, #contactForm textarea { width: 100%; padding: 10px; margin-top: 5px; font-size: 1em; border: 1px solid #8B0000; border-radius: 5px; }
+        #contactForm button { background-color: #8B0000; color: #fff; border: none; padding: 10px 20px; font-size: 1em; cursor: pointer; transition: background-color 0.3s ease; border-radius: 5px; margin-top: 10px; }
+        #contactForm button:hover { background-color: #A52A2A; }
+
+        /* Gallery styles */
+        .gallery {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .gallery img {
+            width: 100px; /* Small image size */
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        .image-label {
+            font-size: 0.9em;
+            color: #333;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        /* Lightbox styles */
+        .lightbox {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox img {
+            margin: auto;
+            display: block;
+            width: 80%; /* Lightbox image size */
+            max-width: 700px; /* Max width */
+            max-height: 80%; /* Max height */
+        }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Slideshow container -->
+    <div class="slideshow-container">
+        <!-- Slide 1 - Greeting -->
+        <div class="slide active fade">
+            <header class="container">
+                <h1>Happy Birthday, Rayan!</h1>
+                <p>You are My Little lovely baby, and today is all about you!</p>
+            </header>
+        </div>
+
+        <!-- Slide 2 - Journey -->
+        <div class="slide fade">
+            <section id="about" class="container">
+                <h2>Our Journey Together</h2>
+                <p>It’s been almost 2 years, and every moment has been a problem between us! 🥸</p>
+            </section>
+        </div>
+
+        <!-- Slide 3 - Gallery -->
+        <div class="slide fade">
+            <section id="gallery" class="container">
+                <h2>Memorable Moments</h2>
+                <div class="gallery">
+                    <div>
+                        <img src="d1.jpg" alt="Memory 1" onclick="openLightbox(this.src)">
+                        <div class="image-label">Memory 1</div>
+                    </div>
+                    <div>
+                        <img src="m1.jpg" alt="Memory 2" onclick="openLightbox(this.src)">
+                        <div class="image-label">Memory 2</div>
+                    </div>
+                    <div>
+                        <img src="m2.jpg" alt="Memory 3" onclick="openLightbox(this.src)">
+                        <div class="image-label">Memory 3</div>
+                    </div>
+                </div>
+                <!-- Video section -->
+                <h2>Watch Our Special Video</h2>
+                <video width="320" height="240" controls>
+                    <source src="m3.mp4" type="video/mp4"> <!-- Replace with your video source -->
+                    Your browser does not support the video tag.
+                </video>
+            </section>
+        </div>
+
+        <!-- Slide 4 - Special Message -->
+        <div class="slide fade">
+            <section id="message" class="container">
+                <h2>A Special Message for You</h2>
+                <p>،حبي ريان<br><br>
+                    من اول نهار تلاقينا و انت تحقري فيا و تتبلاي فيا، من قيشي تاع خروبة ههه ، مي تاني من نهار هذاك عرفة انسانة عزيزة عليا، حبيتها من قلبي و مزالي نحبها،كل يوم معاك،نحسك راكي تتقربي ليا كثر، تزيدني تعلق بيك وتخليني نحس بلي الدنيا معاك أجمل. ابتسامتك، كلامك، وحتى لحظات الصمت معاك، كل شيء يعطيني راحة ويفتحلي باب الأمل. فيك لقيت الصديقة، الحبيبة، و ام المشاكل 🥸. نحبك اليوم، وغدوة، وكل يوم يجي بعد ❤️.ه
+                </p>
+            </section>
+        </div>
+
+        <!-- Slide 5 - Contact Form -->
+        <div class="slide fade">
+            <section id="form" class="container">
+                <h2>Send Me a Message</h2>
+                <form id="contactForm">
+                    <label for="to_name">To:</label>
+                    <input type="text" id="to_name" name="to_name" readonly>
+
+                    <label for="from_name">Your Name:</label>
+                    <input type="text" id="from_name" name="from_name" required>
+
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+
+                    <label for="reply_to">Your Email:</label>
+                    <input type="email" id="reply_to" name="reply_to" required>
+
+                    <button type="submit" id="button">Send Message</button>
+                </form>
+            </section>
+        </div>
+
+        <!-- Navigation buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Thank you for being in my life. Let’s make this day unforgettable!</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox for images -->
+    <div class="lightbox" id="lightbox" onclick="this.style.display='none'">
+        <span class="close" onclick="this.parentElement.style.display='none'">&times;</span>
+        <img id="lightbox-img" src="" alt="Lightbox Image">
+    </div>
+
+    <!-- EmailJS Script -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        emailjs.init('W3bz0txhYUMMle-0y'); // Replace with your User ID
+
+        // Handle form submission
+        const btn = document.getElementById('button');
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            btn.textContent = 'Sending...';
+
+            emailjs.sendForm('service_jnwbhvd', 'template_f34kzis', this)
+                .then(() => {
+                    btn.textContent = 'Send Message';
+                    alert('Message sent!');
+                }, (err) => {
+                    btn.textContent = 'Send Message';
+                    alert(JSON.stringify(err));
+                });
+        });
+
+        // Slideshow functionality
+        let slideIndex = 0;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let slides = document.getElementsByClassName("slide");
+            if (n >= slides.length) { slideIndex = 0; }
+            if (n < 0) { slideIndex = slides.length - 1; }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex].style.display = "flex";
+        }
+
+        // Lightbox functionality
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = src; // Set the lightbox image source
+            lightbox.style.display = 'flex'; // Show the lightbox
+        }
+    </script>
+</body>
+</html>
