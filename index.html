@@ -5,10 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Rayan - Slideshow</title>
     <style>
-        /* Existing styles */
+        /* Basic Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
-        html, body { height: 100%; }
-        body { background-color: #f5f5f5; background: url('123.png') no-repeat center center/cover; color: #8B0000; }
+        html, body { height: 100%; position: relative; overflow: hidden; }
+        body { background-color: #e7e7e7; color: #8B0000; }
+
+        /* Heart Rain Animation */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Keep it behind other content */
+        }
+
+        /* Glassy Overlay */
+        .glassy-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2); /* White background with transparency */
+            backdrop-filter: blur(1px); /* Apply blur effect */
+            z-index: 0; /* Ensure it’s above the canvas but below the other content */
+        }
+
+        /* Slideshow styles */
         .container { width: 90%; max-width: 1200px; margin: 0 auto; }
         .slideshow-container { position: relative; max-width: 100%; height: 100%; margin: auto; overflow: hidden; }
         .slide { display: none; height: 100vh; text-align: center; justify-content: center; align-items: center; }
@@ -89,6 +113,12 @@
     </style>
 </head>
 <body>
+    <!-- Heart Rain Animation Canvas -->
+    <canvas id="heartCanvas"></canvas>
+
+    <!-- Glassy Overlay -->
+    <div class="glassy-overlay"></div>
+
     <!-- Slideshow container -->
     <div class="slideshow-container">
         <!-- Slide 1 - Greeting -->
@@ -114,15 +144,15 @@
                 <div class="gallery">
                     <div>
                         <img src="d1.jpg" alt="Memory 1" onclick="openLightbox(this.src)">
-                        <div class="image-label">Memory 1</div>
+                        <div class="image-label">First meet</div>
                     </div>
                     <div>
                         <img src="m1.jpg" alt="Memory 2" onclick="openLightbox(this.src)">
-                        <div class="image-label">Memory 2</div>
+                        <div class="image-label">First date</div>
                     </div>
                     <div>
                         <img src="m2.jpg" alt="Memory 3" onclick="openLightbox(this.src)">
-                        <div class="image-label">Memory 3</div>
+                        <div class="image-label">Last date</div>
                     </div>
                 </div>
                 <!-- Video section -->
@@ -139,7 +169,7 @@
             <section id="message" class="container">
                 <h2>A Special Message for You</h2>
                 <p>،حبي ريان<br><br>
-                    من اول نهار تلاقينا و انت تحقري فيا و تتبلاي فيا، من قيشي تاع خروبة ههه ، مي تاني من نهار هذاك عرفة انسانة عزيزة عليا، حبيتها من قلبي و مزالي نحبها،كل يوم معاك،نحسك راكي تتقربي ليا كثر، تزيدني تعلق بيك وتخليني نحس بلي الدنيا معاك أجمل. ابتسامتك، كلامك، وحتى لحظات الصمت معاك، كل شيء يعطيني راحة ويفتحلي باب الأمل. فيك لقيت الصديقة، الحبيبة، و ام المشاكل 🥸. نحبك اليوم، وغدوة، وكل يوم يجي بعد ❤️.ه
+                    من اول نهار تلاقينا و انت تحقري فيا و تتبلاي فيا، من قيشي تاع خروبة ههه ، مي تاني من نهار هذاك عرفة انسانة عزيزة عليا، حبيتها من قلبي و مزالي نحبها،كل يوم معاك،نحسك راكي تتقربي ليا كثر، تزيدني تعلق بيك وتخليني نحس بلي الدنيا معاك أجمل. ابتسامتك، كلامك، وحتى لحظات الصمت معاك، كل شيء يعطيني راحة ويفتحلي باب الأمل. فيك لقيت الصديقة، الحبيبة، و ام المشاكل 🥸. نحبك اليوم، وغدوة، وكل يوم يجي بعد ❤️.
                 </p>
             </section>
         </div>
@@ -229,6 +259,56 @@
             lightboxImg.src = src; // Set the lightbox image source
             lightbox.style.display = 'flex'; // Show the lightbox
         }
+
+        // Heart Rain Animation
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const hearts = [];
+
+        class Heart {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 25 + 10;
+                this.speed = Math.random() * 1.5 + 1;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(255, 0, 0, 0.8)';
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.bezierCurveTo(this.x - this.size / 2, this.y - this.size / 2, this.x - this.size, this.y + this.size / 4, this.x, this.y + this.size);
+                ctx.bezierCurveTo(this.x + this.size, this.y + this.size / 4, this.x + this.size / 2, this.y - this.size / 2, this.x, this.y);
+                ctx.fill();
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) {
+                    this.y = -this.size;
+                    this.x = Math.random() * canvas.width;
+                }
+                this.draw();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < 50; i++) {
+                hearts.push(new Heart(Math.random() * canvas.width, Math.random() * canvas.height));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hearts.forEach(heart => heart.update());
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
     </script>
 </body>
 </html>
